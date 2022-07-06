@@ -1,0 +1,9 @@
+{
+    "buildpipeline_agent": {
+        "env": "X",
+        "machine_user": "X",
+        "machine_number": 0,
+        "token": "X",
+        "autostart": false
+    }
+}

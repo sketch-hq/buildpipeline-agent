@@ -1,0 +1,34 @@
+.vagrant
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+
+# Bundler
+Gemfile.lock
+gems.locked
+bin/*
+.bundle/*
+
+# test kitchen
+.kitchen/
+kitchen.local.yml
+test/integration/data_bags/buildpipeline-agent/*.json
+!test/integration/data_bags/buildpipeline-agent/*.template.json
+
+# Chef
+.zero-knife.rb
+Policyfile.lock.json
+chef_guid
+cache/
+
+# Bootstrap
+bootstrap/secrets
+bootstrap/first_run*.json
+!bootstrap/first_run.default.json
+bootstrap/node.*.json
+
+# Berks
+berks-cookbooks/

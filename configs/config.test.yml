@@ -1,0 +1,12 @@
+# This configuration is for the buildpipeline `test` environment
+# This file also serves as a schema/template for other config files
+
+# Agent - Values specific to the agent process
+Agent:
+  tokenFile: configs/agent.test.token
+  environment: test
+  logdir: /usr/local/var/log
+  telemetry:
+    username: metrics
+    password: not-a-real-value
+    basePort: 3000

@@ -1,0 +1,28 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: macos-10-14-6
+    driver:
+      box: ramsey/macos-mojave
+      version: 1.0.0
+      username: vagrant
+      password: vagrant
+
+suites:
+  - name: local-buildpipeline
+    run_list:
+      - recipe[sketch-buildpipeline-agent::default]
+    attributes:
+      buildpipeline_agent:
+        machine_number: 99
+        env: local
+        machine_user: vagrant
+        machine_group: staff
