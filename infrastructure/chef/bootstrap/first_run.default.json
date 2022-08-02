@@ -1,9 +1,13 @@
 {
-    "buildpipeline_agent": {
-        "env": "X",
-        "machine_user": "X",
-        "machine_number": 0,
-        "token": "X",
-        "autostart": false
-    }
+  "buildpipeline_agent": {
+    "env": "X",
+    "machine_user": "X",
+    "machine_number": 0,
+    "token": "X",
+    "autostart": false,
+    "xcode_versions": [
+      "13.4.1"
+    ],
+    "xcode_selected_version": "13.4.1"
+  }
 }

@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/chefcookbook,librarian-chef,vs,terraform,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=chefcookbook,librarian-chef,vs,terraform,visualstudiocode
 
+# OSX #
+.DS_Store
+
 ### ChefCookbook ###
 .vagrant
 /cookbooks

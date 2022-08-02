@@ -7,19 +7,19 @@ ohai "reload hostname" do
 end
 
 # Set the host name
-  execute "set HostName to buildpipeline#{node['buildpipeline_agent']['machine_number']}" do
-  command %{/usr/sbin/scutil --set HostName "jenkins#{node['buildpipeline_agent']['machine_number']}"}
+execute "set HostName to buildpipeline#{node['buildpipeline_agent']['machine_number']}" do
+  command %{/usr/sbin/scutil --set HostName "buildpipeline#{node['buildpipeline_agent']['machine_number']}"}
   notifies :reload, "ohai[reload hostname]"
 end
 
 # Set the computer name
 execute "set ComputerName to buildpipeline#{node['buildpipeline_agent']['machine_number']}" do
-  command %{/usr/sbin/scutil --set ComputerName "jenkins#{node['buildpipeline_agent']['machine_number']}"}
+  command %{/usr/sbin/scutil --set ComputerName "buildpipeline#{node['buildpipeline_agent']['machine_number']}"}
   notifies :reload, "ohai[reload hostname]"
 end
 
 # Set the local host name
 execute "set LocalHostName to buildpipeline#{node['buildpipeline_agent']['machine_number']}" do
-  command %{/usr/sbin/scutil --set LocalHostName "jenkins#{node['buildpipeline_agent']['machine_number']}"}
+  command %{/usr/sbin/scutil --set LocalHostName "buildpipeline#{node['buildpipeline_agent']['machine_number']}"}
   notifies :reload, "ohai[reload hostname]"
 end

@@ -4,3 +4,7 @@ execute 'install homebrew' do
   user machine_user
   not_if { ::File.exist?("#{homebrew_prefix}/bin/brew") }
 end
+
+# This is needed for the homebrew_package resource to work.
+# It's used to check for the brew executable owner in order to run as that user
+ENV['PATH'] = "#{homebrew_prefix}/bin:#{ENV['PATH']}"

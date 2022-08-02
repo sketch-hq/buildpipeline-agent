@@ -18,3 +18,7 @@ default['buildpipeline_agent']['config_dir'] = '/usr/local/etc/.buildpipeline'
 default['buildpipeline_agent']['config_file'] = '/usr/local/etc/.buildpipeline/config.yml'
 default['buildpipeline_agent']['token_file'] = "#{default['buildpipeline_agent']['config_dir']}/token"
 default['buildpipeline_agent']['log_folder_path'] = '/usr/local/var/log'
+
+# Xcode installed and selected version(s)s
+default['buildpipeline_agent']['xcode_versions'] = ['13.4.1']
+default['buildpipeline_agent']['xcode_selected_version'] = '13.4.1'
