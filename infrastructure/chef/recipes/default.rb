@@ -8,6 +8,10 @@ include_recipe('sketch-buildpipeline-agent::_hostname')
 include_recipe('sketch-buildpipeline-agent::_system_preferences')
 include_recipe('sketch-buildpipeline-agent::_sudo')
 
+# Not deploy the SSH key yet
+# Enable it again when everything is managed by chef and in the new jenkins
+#include_recipe('sketch-buildpipeline-agent::_ssh')
+
 # Ensure we have the xcode command line tools installed and kept up to date
 include_recipe('sketch-buildpipeline-agent::_install_command_line_tools')
 
@@ -21,7 +25,11 @@ include_recipe('sketch-buildpipeline-agent::_select_xcode')
 include_recipe('sketch-buildpipeline-agent::_install_homebrew')
 include_recipe('sketch-buildpipeline-agent::_install_homebrew_packages')
 
-
-# Download & install JAgent repo
+# Install OpenJDK
+# (Requires brew to be installed)
+include_recipe('sketch-buildpipeline-agent::_install_jdk')
 
 # Download & install BCTools repo
+# include_recipe('sketch-buildpipeline-agent::_install_bctools')
+
+# Download & install JAgent repo

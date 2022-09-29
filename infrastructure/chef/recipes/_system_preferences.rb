@@ -93,7 +93,7 @@ end
 # Stop all automatic update installation but critical ones
 #
 
-automatic_software_updates "enables automatic check, download, and install of software updates" do
+automatic_software_updates 'enables automatic check, download, and install of software updates' do
   check true
   download true
   install_os false

@@ -4,6 +4,9 @@ BOOTSTRAP_PATH := infrastructure/chef/bootstrap
 # General AWS config
 AWS_REGION := us-east-1
 
+# Root Cloud AWS config
+ROOT_ZONE_ID := ZKMC5YFWPZ5R8
+
 # Production: prod Cloud AWS config
 CLOUD_AWS_ACCOUNT_ID_production := 707624801137
 CLOUD_AWS_PROFILE_production := sketch-production
@@ -16,7 +19,7 @@ CLOUD_LOGSTASH_SECURITY_GROUP_ID := $(CLOUD_LOGSTASH_SECURITY_GROUP_ID_$(env))
 
 
 # buildpipeline-agent AWS and SSH config
-username := administrator
+username ?= administrator
 RF_AWS_PROFILE := buildpipeline-agent
 ADMIN_PUBLIC_KEY := ~/.ssh/buildpipeline_admin.pub
 ADMIN_PRIVATE_KEY := ~/.ssh/buildpipeline_admin
@@ -33,7 +36,7 @@ TOKEN := $(call generate_token)
 UUID := $(call generate_uuid)
 DYNAMO_RECORD := $(call generate_dynamo_record,$(TOKEN),$(UUID))
 
-bootstrap: port = 22
+bootstrap: port ?= 22
 bootstrap:
 	@test -n "$(env)" || (echo "💥 env variable must be set to one of: [test, development, staging, production]" && exit 1)
 
@@ -106,16 +109,16 @@ bootstrap:
 	--runlist role[buildpipeline-agent] \
 	--json-attributes /etc/chef/first_run.json'"
 
-	@echo "#"
-	@echo "# 🌐 Adding the $(DNS_RECORD) DNS record to Route53"
-	aws --region $(AWS_REGION) route53 change-resource-record-sets --hosted-zone-id $(ROOT_ZONE_ID) --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"$(DNS_RECORD)","Type":"A","TTL":300,"ResourceRecords":[{"Value":"$(ip)"}]}}]}'
-	@echo "#"
-	@echo
-	@echo
+	#@echo "#"
+	#@echo "# 🌐 Adding the $(DNS_RECORD) DNS record to Route53"
+	#aws --region $(AWS_REGION) route53 change-resource-record-sets --hosted-zone-id $(ROOT_ZONE_ID) --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"$(DNS_RECORD)","Type":"A","TTL":300,"ResourceRecords":[{"Value":"$(ip)"}]}}]}'
+	#@echo "#"
+	#@echo
+	#@echo
 
-	@echo "#"
-	@echo "# 🌐 Adding IP to Logstash security groups"
-	@echo "#"
-	@echo
-	@test "$(logstash)" != 'false' && aws --region $(AWS_REGION) --profile $(CLOUD_AWS_PROFILE) ec2 authorize-security-group-ingress --group-id $(CLOUD_LOGSTASH_SECURITY_GROUP_ID) --ip-permissions IpProtocol=tcp,FromPort=5044,ToPort=5044,IpRanges='[{CidrIp=$(ip)/32,Description="$(NODE_NAME)"}]' || echo "⛔️ Not configuring Logstash as requested"
-	@echo
+	#@echo "#"
+	#@echo "# 🌐 Adding IP to Logstash security groups"
+	#@echo "#"
+	#@echo
+	#@test "$(logstash)" != 'false' && aws --region $(AWS_REGION) --profile $(CLOUD_AWS_PROFILE) ec2 authorize-security-group-ingress --group-id $(CLOUD_LOGSTASH_SECURITY_GROUP_ID) --ip-permissions IpProtocol=tcp,FromPort=5044,ToPort=5044,IpRanges='[{CidrIp=$(ip)/32,Description="$(NODE_NAME)"}]' || echo "⛔️ Not configuring Logstash as requested"
+	#@echo

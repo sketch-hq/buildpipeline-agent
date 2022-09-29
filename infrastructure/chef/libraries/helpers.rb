@@ -1,7 +1,7 @@
 require 'zlib'
 
 def secrets
-  data_bag_item('buildpipeline-agent', node['buildpipeline_agent']['env'])
+  data_bag_item('buildpipeline-agent', 'secrets')
 end
 
 def machine_user
