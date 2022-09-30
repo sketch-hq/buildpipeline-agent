@@ -14,17 +14,26 @@ xcode_versions.each do |version|
       # Don't download .xip in the following cases
       # IF file is already downloaded
       # OR extracted in /Applications folder
-      ::Dir.exist?("/Applications/Xcode-#{version}.app")
+      ::File.exist?("/var/db/.Xcode_#{version}.freeze")
     end
-    # notifies :run, "execute[Extract XCode #{version}]", :immediately
   end
 
   execute "Extract XCode #{version}" do
-    command "cd /Applications && xip --expand /tmp/Xcode_#{version}.xip && mv Xcode.app Xcode-#{version}.app && rm -rf /tmp/Xcode_#{version}.xip"
-    # Don't extract if is already extracted
-    not_if { ::Dir.exist?("/Applications/Xcode-#{version}.app") }
-    # action :nothing
     subscribes :run, "aws_s3_file[/tmp/Xcode_#{version}.xip]"
+    command "cd /Applications && xip --expand /tmp/Xcode_#{version}.xip && mv Xcode.app Xcode-#{version}.app && rm -rf /tmp/Xcode_#{version}.xip"
+
+    # Don't extract if already installed
+    not_if { ::File.exist?("/var/db/.Xcode_#{version}.freeze") }
+
+    # Create lock file if successfully installed XCode
+    # Doing this we will be able to know if it is installed or not
+    # And easily manage the removal
+    notifies :create_if_missing, "file[Lock XCode #{version} installation]"
+  end
+
+  file "Lock XCode #{version} installation" do
+    path "/var/db/.Xcode_#{version}.freeze"
+    action :nothing
   end
 end
 
