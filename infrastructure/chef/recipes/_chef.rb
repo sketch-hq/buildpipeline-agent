@@ -15,7 +15,7 @@ cookbook_file "/usr/local/bin/ramsey" do
   group 'wheel'
 end
 
-# Set up chef as a launchd service that runs every 30 minutes
+# Set up chef as a launchd service that runs every 60 minutes
 node.override['chef_client']['bin'] = "/usr/local/bin/ramsey"
 include_recipe('chef-client::service')
 
