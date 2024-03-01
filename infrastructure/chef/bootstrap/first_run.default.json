@@ -6,7 +6,8 @@
     "token": "X",
     "autostart": false,
     "xcode_versions": [
+      "14.2"
     ],
-    "xcode_selected_version": ""
+    "xcode_selected_version": "14.2"
   }
 }
