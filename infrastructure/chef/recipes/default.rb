@@ -12,6 +12,8 @@ include_recipe('sketch-buildpipeline-agent::_sudo')
 # Enable it again when everything is managed by chef and in the new jenkins
 #include_recipe('sketch-buildpipeline-agent::_ssh')
 
+include_recipe('sketch-buildpipeline-agent::_sshd')
+
 # Ensure we have the xcode command line tools installed and kept up to date
 include_recipe('sketch-buildpipeline-agent::_install_command_line_tools')
 
