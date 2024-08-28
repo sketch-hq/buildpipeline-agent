@@ -11,3 +11,4 @@ homebrew_package('fastlane') { version "2.212.2" }
 homebrew_package('jq') { action :upgrade }
 homebrew_package('xcbeautify') { action :upgrade }
 homebrew_package('check-jsonschema') { action :upgrade }
+homebrew_package('tailscale') { action :upgrade }
