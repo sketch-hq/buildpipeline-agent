@@ -35,3 +35,6 @@ include_recipe('sketch-buildpipeline-agent::_install_jdk')
 # include_recipe('sketch-buildpipeline-agent::_install_bctools')
 
 # Download & install JAgent repo
+
+# Install and configure the tailscale VPN
+include_recipe('sketch-buildpipeline-agent::_tailscale')
