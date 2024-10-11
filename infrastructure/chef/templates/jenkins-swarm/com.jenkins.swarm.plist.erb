@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.jenkins.swarm</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/bin/java</string>
+      <string>-jar</string>
+      <string><%= @swarm_files_path %>/swarm-client.jar</string>
+      <string>-name</string>
+      <string><%= @node['name'] %></string>
+      <string>-master</string>
+      <string><%= @jenkins_master_url %></string>
+      <string>-fsroot</string>
+      <string><%= @fsroot %></string>
+      <string>-executors</string>
+      <string><%= @executors %></string>
+      <string>-labels</string>
+      <string><%= @swarm_files_path %>/swarm.labels</string>
+      <string>-username</string>
+      <string><%= @jenkins_user %></string>
+      <string>-password</string>
+      <string><%= @jenkins_password %></string>
+      <string>-disableClientsUniqueId</string>
+      <string>-deleteExistingClients</string>
+      <string>-mode</string>
+      <string>normal</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/var/log/jenkins-swarm.err</string>
+    <key>StandardOutPath</key>
+    <string>/var/log/jenkins-swarm.out</string>
+  </dict>
+</plist>

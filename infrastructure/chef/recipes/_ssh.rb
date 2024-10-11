@@ -22,7 +22,6 @@ ssh_known_hosts_entry 'github.com' do
   action :flush
 end
 
-
 file "#{home}/.ssh/authorized_keys" do
   content maintainers_public_keys.join("\n")
   mode '00644'
