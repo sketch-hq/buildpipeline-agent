@@ -31,6 +31,10 @@ include_recipe('sketch-buildpipeline-agent::_install_homebrew_packages')
 # (Requires brew to be installed)
 include_recipe('sketch-buildpipeline-agent::_install_jdk')
 
+# Install Jenkins Swarm agent
+# After installing Java
+include_recipe('sketch-buildpipeline-agent::_jenkins_swarm')
+
 # Download & install BCTools repo
 # include_recipe('sketch-buildpipeline-agent::_install_bctools')
 
