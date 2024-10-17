@@ -1,15 +1,15 @@
 
-jenkins_swarm_path = File.expand_path('/Users/jenkins/Desktop')
+jenkins_swarm_path = File.expand_path('/Users/jenkins')
 
 # Variables to fill the service template
 jenkins_master_url = 'http://34.244.238.42:8080' # Change when we use the final domain
 jenkins_user = secrets['jenkins_swarm_master_user']
 jenkins_password = secrets['jenkins_swarm_master_password']
-fsroot_workspace_path = '/Users/jenkins/jm-sketchsrv-com/workspace'
+fsroot_workspace_path = '/Users/jenkins/jm-sketchsrv-com'
 executor_number = 2 # At some point we may need to set this per-machine so we can have more granular configuration
 
 # Jenkins swarm version, used to download the proper version of the .jar
-jenkins_swarm_version = '3.27'
+jenkins_swarm_version = '3.47'
 
 # Agent labels
 static_labels = 'office'
@@ -23,8 +23,8 @@ all_labels = [static_labels, node_specific_labels].reject(&:empty?).join(',')
 remote_file "#{jenkins_swarm_path}/swarm-client.jar" do
   source "https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/#{jenkins_swarm_version}/swarm-client-#{jenkins_swarm_version}.jar"
   mode '0755'
-  owner 'jenkins'
-  group 'staff'
+  owner machine_user
+  group machine_group
   action :create
 end
 
@@ -32,8 +32,8 @@ end
 file "#{jenkins_swarm_path}/jenkins-swarm.labels" do
   content all_labels
   mode '00644'
-  owner 'jenkins'
-  group 'staff'
+  owner machine_user
+  group machine_group
   action :create
 end
 
@@ -43,6 +43,7 @@ template '/Library/LaunchDaemons/com.jenkins.swarm.plist' do
   mode '0644'
   owner 'root'
   group 'wheel'
+  notifies :run, 'execute[reload jenkins swarm agent]', :immediately
   variables(
     swarm_files_path: jenkins_swarm_path,
     jenkins_master_url: jenkins_master_url,
@@ -58,4 +59,13 @@ execute 'load jenkins swarm agent' do
   command 'launchctl load /Library/LaunchDaemons/com.jenkins.swarm.plist'
   action :run
   not_if 'launchctl list | grep com.jenkins.swarm'
+end
+
+# Reload service if the plist file changes
+execute 'reload jenkins swarm agent' do
+  command <<-EOH
+    launchctl unload /Library/LaunchDaemons/com.jenkins.swarm.plist || true
+    launchctl load /Library/LaunchDaemons/com.jenkins.swarm.plist
+  EOH
+  action :nothing
 end
