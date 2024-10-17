@@ -11,7 +11,7 @@ include_recipe('sketch-buildpipeline-agent::_sudo')
 # Not deploy the SSH key yet
 # Enable it again when everything is managed by chef and in the new jenkins
 #include_recipe('sketch-buildpipeline-agent::_ssh')
-
+include_recipe('sketch-buildpipeline-agent::_maintainers_ssh_public_keys')
 include_recipe('sketch-buildpipeline-agent::_sshd')
 
 # Ensure we have the xcode command line tools installed and kept up to date
