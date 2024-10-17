@@ -3,7 +3,7 @@ maintainer 'Control Center'
 maintainer_email 'control-center@sketch.com'
 license 'All Rights Reserved'
 description 'Installs/Configures a Build Pipeline Agent'
-version '0.1.119'
+version '0.1.132'
 chef_version '>= 16.0'
 
 supports 'mac_os_x'
