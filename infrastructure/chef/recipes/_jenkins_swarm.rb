@@ -18,7 +18,7 @@ static_labels = 'office'
 node_specific_labels = node['buildpipeline_agent']['additional_labels'] || ''
 
 # All labels concatenated
-all_labels = [static_labels, node_specific_labels].reject(&:empty?).join(',')
+all_labels = [static_labels, node_specific_labels].reject(&:empty?).join(' ')
 
 remote_file "#{jenkins_swarm_path}/swarm-client.jar" do
   source "https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/#{jenkins_swarm_version}/swarm-client-#{jenkins_swarm_version}.jar"
@@ -37,12 +37,12 @@ file "#{jenkins_swarm_path}/jenkins-swarm.labels" do
   action :create
 end
 
-# We assume /Library/LaunchDaemons exists, we may need to check it later
-template '/Library/LaunchDaemons/com.jenkins.swarm.plist' do
+# We assume /Users/jenkins/Library/LaunchAgents exists, we may need to check it later
+template "#{jenkins_swarm_path}/Library/LaunchAgents/com.jenkins.swarm.plist" do
   source 'jenkins-swarm/com.jenkins.swarm.plist.erb'
   mode '0644'
-  owner 'root'
-  group 'wheel'
+  owner 'jenkins'
+  group 'staff'
   notifies :run, 'execute[reload jenkins swarm agent]', :immediately
   variables(
     swarm_files_path: jenkins_swarm_path,
@@ -56,7 +56,7 @@ end
 
 # Run the launchd service
 execute 'load jenkins swarm agent' do
-  command 'launchctl load /Library/LaunchDaemons/com.jenkins.swarm.plist'
+  command "launchctl load #{jenkins_swarm_path}/Library/LaunchAgents/com.jenkins.swarm.plist"
   action :run
   not_if 'launchctl list | grep com.jenkins.swarm'
 end
@@ -64,8 +64,8 @@ end
 # Reload service if the plist file changes
 execute 'reload jenkins swarm agent' do
   command <<-EOH
-    launchctl unload /Library/LaunchDaemons/com.jenkins.swarm.plist || true
-    launchctl load /Library/LaunchDaemons/com.jenkins.swarm.plist
+    launchctl unload #{jenkins_swarm_path}/Library/LaunchAgents/com.jenkins.swarm.plist || true
+    launchctl load #{jenkins_swarm_path}/Library/LaunchAgents/com.jenkins.swarm.plist
   EOH
   action :nothing
 end
