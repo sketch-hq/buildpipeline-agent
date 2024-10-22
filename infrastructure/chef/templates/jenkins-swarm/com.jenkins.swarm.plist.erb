@@ -33,8 +33,8 @@
     <key>KeepAlive</key>
     <true/>
     <key>StandardErrorPath</key>
-    <string>/var/log/jenkins-swarm.err</string>
+    <string><%= @swarm_files_path %>/Library/Logs/jenkins-swarm.err</string>
     <key>StandardOutPath</key>
-    <string>/var/log/jenkins-swarm.out</string>
+    <string><%= @swarm_files_path %>/Library/Logs/jenkins-swarm.out</string>
   </dict>
 </plist>
