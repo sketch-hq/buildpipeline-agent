@@ -3,7 +3,7 @@ jenkins_swarm_path = File.expand_path('/Users/jenkins')
 if node['buildpipeline_agent'] && node['buildpipeline_agent']['disable_swarm'] == "true"
   # Unload and disable the Jenkins Swarm service if it's currently loaded
   execute 'unload jenkins swarm agent' do
-    command "launchctl unload #{jenkins_swarm_path}/Library/LaunchAgents/com.jenkins.swarm.plist || true"
+    command "launchctl unload #{jenkins_swarm_path}/Library/LaunchAgents/com.jenkins.swarm.plist"
     only_if 'launchctl list | grep com.jenkins.swarm'
     action :run
   end
