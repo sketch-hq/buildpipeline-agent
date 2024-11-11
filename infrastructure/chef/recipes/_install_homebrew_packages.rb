@@ -2,11 +2,25 @@
 # 🍻 Install homebrew packages
 #
 
+def macos_version
+  `sw_vers -productVersion`.strip
+end
+
+def macos_version_at_least?(required_version)
+  Gem::Version.new(macos_version) >= Gem::Version.new(required_version)
+end
+
 homebrew_package('coreutils') { action :upgrade }
 homebrew_package('tree') { action :upgrade }
 homebrew_package('gawk') { action :upgrade }
-#homebrew_package('swiftlint') { action :upgrade }
-homebrew_package('php') { action :upgrade }
+
+# Upgrade PHP only if macOS version is at least 13.0
+if macos_version_at_least?('13.0')
+  homebrew_package('php') { action :upgrade }
+else
+  Chef::Log.warn("Skipping PHP upgrade: macOS version is below 13.0")
+end
+
 homebrew_package('fastlane') { version "2.225.0" }
 homebrew_package('jq') { action :upgrade }
 homebrew_package('xcbeautify') { action :upgrade }
