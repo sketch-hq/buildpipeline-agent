@@ -12,7 +12,7 @@ execute "enable Tailscale service" do
 end
 
 bash 'tailscale up' do
-  code   "#{homebrew_prefix}/bin/tailscale up --auth-key=#{auth_key} --hostname=#{node['name']} --ssh --advertise-tags=tag:buildpipeline --accept-routes=false --accept-dns=false"
+  code   "#{homebrew_prefix}/bin/tailscale up --auth-key=#{auth_key} --hostname=#{node['name']} --ssh --advertise-tags=tag:buildpipeline-worker --accept-routes=true --accept-dns=true"
   not_if "#{homebrew_prefix}/bin/tailscale status"
   action :run
 end
