@@ -13,7 +13,7 @@ else
   jenkins_user = secrets['jenkins_swarm_master_user']
   jenkins_password = secrets['jenkins_swarm_master_password']
   fsroot_workspace_path = '/Users/jenkins/jm-sketchsrv-com'
-  executor_number = 1
+  executor_number = node['buildpipeline_agent']['executor_number'] || 1
 
   # Jenkins swarm version, used to download the proper version of the .jar
   jenkins_swarm_version = '3.47'
