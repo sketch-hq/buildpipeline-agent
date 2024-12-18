@@ -42,3 +42,11 @@ if macos_version_at_least?('13.0')
 else
   Chef::Log.warn("Skipping check-jsonschema install: macOS version is below 13.0")
 end
+
+# Tap a7ex/homebrew-formulae and install xcresultparser
+if macos_version_at_least?('13.0')
+  homebrew_tap('a7ex/homebrew-formulae') { homebrew_path "/opt/homebrew/bin/brew" }
+  homebrew_package('xcresultparser') { action :install }
+else
+  Chef::Log.warn("Skipping xcresultparser install: macOS version is below 13.0")
+end
